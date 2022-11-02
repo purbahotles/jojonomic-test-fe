@@ -1,0 +1,30 @@
+<template>
+  <v-app>
+    <v-main>
+      <home/>
+    </v-main>
+  </v-app>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import Home from './components/Home.vue';
+
+export default Vue.extend({
+  name: 'App',
+
+  components: {
+    Home,
+  },
+
+  data: () => ({
+    //
+  }),
+});
+</script>
+
+<style scoped>
+#app {
+  background: #141414 !important;
+}
+</style>

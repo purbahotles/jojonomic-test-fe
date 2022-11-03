@@ -1,31 +1,32 @@
+import ProfileModel from '@/models/partials/ProfileModel'
+
 export default class DetailAreaModel {
-  // if type data not consitence we can use type any
-  id!: number | any
+  id!: number
   area!: {
     id: number
     name: string
   }
   activeCompetitions!: [
     {
-      id: number | any
-      name: string | any
-      code: string | any
-      plan: string | any
-      lastUpdated: string | any
+      id: number
+      name: string
+      code: string
+      plan: string
+      lastUpdated: string
       area: {
-        id: number | any
-        name: string | any
+        id: number
+        name: string
       }
     }
   ]
-  clubColors!: string | any
-  crestUrl!: string | any
-  email!: string | any
-  founded!: string | any
-  lastUpdated!: string | any
-  name!: string | any
-  phone!: string | any
-  website!: string | any
-  venue!: string | any
-  squad!: [] | any
+  clubColors!: string
+  crestUrl!: string
+  email!: string
+  founded!: string
+  lastUpdated!: string
+  name!: string
+  phone!: string
+  website!: string
+  venue!: string
+  squad!: ProfileModel[]
 }

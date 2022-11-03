@@ -20,5 +20,14 @@ export default {
       headers: header
     }
     return axios(options)
+  },
+
+  getProfiles (id: string) {
+    const options: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://api.football-data.org/v2/players/' + id,
+      headers: header
+    }
+    return axios(options)
   }
 }

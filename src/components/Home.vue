@@ -146,7 +146,7 @@
                                                   <td>
                                                     <v-tooltip bottom>
                                                       <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn class="mx-2" fab dark small color="error" v-bind="attrs" v-on="on" @click="showProfile()">
+                                                        <v-btn class="mx-2" fab dark small color="error" v-bind="attrs" v-on="on" @click="showProfile(item.id)">
                                                           <v-icon dark>
                                                              mdi-account-circle
                                                           </v-icon>
@@ -169,6 +169,63 @@
                                 </v-row>
                               </template>
                             </v-card>
+
+                            <template v-if="dialogProfile">
+                              <v-card class="mx-auto" color="#141414" dark max-width="400"> 
+                                <v-car>
+                                  <h2 class="text-center pt-2">Player Detail</h2>
+                                </v-car>
+                                <v-card-title>
+                                  <v-icon large left >
+                                    mdi-account-circle
+                                  </v-icon>
+                                  <span class="text-h6 font-weight-light">{{ dataProfile.name }}</span>
+                                </v-card-title>
+                                
+                                <v-card-text>
+                                  <v-row>
+                                    <v-col cols="5">
+                                      <p>Name:</p>
+                                      <p>DateOfBirth:</p>
+                                      <p>Nationality:</p>
+                                      <p>Position:</p>
+                                    </v-col>
+                                    <v-col cols="5">
+                                      <p>{{ dataProfile.firstName }}</p>
+                                      <p>{{ dataProfile.dateOfBirth }}</p>
+                                      <p>{{ dataProfile.nationality }}</p>
+                                      <p>{{ dataProfile.position }}</p>
+                                    </v-col>
+                                  </v-row>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                  <v-list-item class="grow">
+                                    <v-list-item-content>
+                                      <v-list-item-title>Shirt Number</v-list-item-title>
+                                    </v-list-item-content>
+                                    <v-list-item-avatar color="grey darken-3">
+                                      <v-avatar color="error" size="40" >
+                                        <span class="white--text">{{ dataProfile.shirtNumber }}</span>
+                                        <span v-if="!dataProfile.shirtNumber" class="white--text">X</span>
+                                      </v-avatar>
+                                    </v-list-item-avatar>
+
+                                    <v-row align="center" justify="end">
+                                      <v-icon class="mr-1">
+                                        mdi-heart
+                                      </v-icon>
+                                      <span class="subheading mr-2">256</span>
+                                      <span class="mr-1">·</span>
+                                      <v-icon class="mr-1">
+                                        mdi-share-variant
+                                      </v-icon>
+                                      <span class="subheading">45</span>
+                                    </v-row>
+                                  </v-list-item>
+                                </v-card-actions>
+                              </v-card>
+                            </template>
                           </v-card>
                       </v-card>
                     </v-dialog>
@@ -196,6 +253,7 @@ import Sekeleton from '@/components/Sekeleton.vue'
 // MODEL
 import AreasModel from '@/models/partials/AreasModel'
 import DetailAreaModel from '@/models/partials/DetailAreaModel'
+import ProfileModel from '@/models/partials/ProfileModel'
 
 // REST API
 import api from '@/api'
@@ -210,8 +268,10 @@ export default class Home extends Vue {
 
   listDataAreas: AreasModel[] = []
   dataArea: DetailAreaModel = new DetailAreaModel()
+  dataProfile: ProfileModel = new ProfileModel()
   loading = false
   dialog = false
+  dialogProfile = false
 
   async created () {
     await this.getDataTable()
@@ -253,8 +313,21 @@ export default class Home extends Vue {
     }
   }
 
-  showProfile () {
-    alert('profile')
+  async showProfile (id: string) {
+    console.log(id)
+    try {
+      this.loading = true
+      const response =  await api.getProfiles(id)
+      this.dataProfile = response.data
+      console.log(this.dataProfile)
+    }
+    catch (error) {
+      alert(error)
+    } finally {
+      this.loading = false
+      this.dialog = true
+      this.dialogProfile = true
+    }
   }
 }
 </script>
